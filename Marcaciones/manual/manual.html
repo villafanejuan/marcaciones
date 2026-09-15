@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de usuario - Sistema de Planillas</title>
+<style>
+  :root {
+    --azul:#1f4e79; --azul-claro:#ddebf7; --verde:#2e7d32; --rojo:#b02b2b;
+    --gris:#f4f6f8; --borde:#cfd6de;
+  }
+  * { box-sizing:border-box; }
+  body {
+    font-family:"Segoe UI", Arial, sans-serif; color:#222; margin:0;
+    background:#fafbfc; line-height:1.6;
+  }
+  header {
+    background:linear-gradient(135deg,#1f4e79,#2e6da4); color:#fff;
+    padding:40px 32px; text-align:center;
+  }
+  header h1 { margin:0 0 6px; font-size:30px; }
+  header p { margin:0; opacity:.9; font-size:16px; }
+  main { max-width:980px; margin:0 auto; padding:28px 20px 60px; }
+  h2 {
+    color:var(--azul); border-bottom:3px solid var(--azul-claro);
+    padding-bottom:6px; margin-top:48px; font-size:24px;
+  }
+  h3 { color:var(--azul); margin-top:28px; font-size:18px; }
+  table { border-collapse:collapse; width:100%; margin:14px 0; background:#fff; }
+  th, td { border:1px solid var(--borde); padding:9px 12px; text-align:left; vertical-align:top; }
+  th { background:var(--azul-claro); color:#16324f; }
+  tr:nth-child(even) td { background:var(--gris); }
+  code, kbd {
+    background:#eef1f5; border:1px solid var(--borde); border-radius:4px;
+    padding:1px 6px; font-family:Consolas,monospace; font-size:14px; color:#333;
+  }
+  pre {
+    background:#1e2430; color:#e6e9ef; padding:14px 16px; border-radius:8px;
+    overflow-x:auto; font-size:14px; line-height:1.5;
+  }
+  .img-frame {
+    background:#fff; border:1px solid var(--borde); border-radius:8px;
+    padding:10px; margin:16px 0; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.06);
+  }
+  .img-frame img { max-width:100%; height:auto; border-radius:4px; }
+  .img-frame small { display:block; margin-top:8px; color:#666; }
+  .aviso {
+    border-left:5px solid var(--verde); background:#eaf7ec; padding:12px 16px;
+    border-radius:4px; margin:18px 0;
+  }
+  .aviso.rojo { border-left-color:var(--rojo); background:#fbeaeb; }
+  .paso {
+    display:flex; gap:14px; margin:14px 0; background:#fff;
+    border:1px solid var(--borde); border-radius:8px; padding:14px 16px;
+  }
+  .paso .n {
+    flex:0 0 34px; height:34px; background:var(--azul); color:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px;
+  }
+  .paso .t { flex:1; }
+  ul li { margin:4px 0; }
+  footer {
+    text-align:center; color:#888; font-size:13px; padding:24px;
+    border-top:1px solid var(--borde); margin-top:40px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sistema de Planillas - Camboriú 2026</h1>
+  <p>Manual de usuario · Receptivo · Operativo · Word</p>
+</header>
+<main>
+
+<h2>1. Qué hace el sistema</h2>
+<p>
+  Genera planillas Excel de <b>operaciones y programación</b> (mapa de días) a partir
+  de los datos de los grupos: atracciones, discos, "5ª COMIDA", IN/OUT, vuelos y
+  traslados. Existen <b>3 tipos</b>, cada uno con su fuente de datos, y todos producen
+  el mismo estilo de salida (igual a su planilla modelo).
+</p>
+<table>
+  <tr>
+    <th>Generador</th><th>Fuente de datos</th><th>Qué genera</th>
+  </tr>
+  <tr>
+    <td><code>generador_word.py</code></td>
+    <td>Documentos Word <i>OPERACIONES ... .docx</i> (un colegio por archivo)</td>
+    <td><code>SALIDA_WORD_OPERACIONES *.xlsx</code></td>
+  </tr>
+  <tr>
+    <td><code>generador_receptivo.py</code></td>
+    <td>Excel <i>COLEGIOS CANTIDAD DE PASAJEROS, DISCOS, MARCACIONES</i> (+ Rooming)</td>
+    <td><code>SALIDA_SISTEMA_RECEPTIVO.xlsx</code></td>
+  </tr>
+  <tr>
+    <td><code>generador_operativo.py</code></td>
+    <td>Excel "Control Operativo" (hoja <i>Reservas</i>)</td>
+    <td><code>SALIDA_OPERATIVO_2026.xlsx</code></td>
+  </tr>
+</table>
+
+<div class="aviso">
+  <b>Importante:</b> los 3 generadores producen <b>el mismo formato</b> de
+  programación, idéntico a su planilla modelo: celda con <code>Salida p/ATRACCIÓN</code>,
+  hora <code>as 09:30H</code>, sub-atracciones, restaurante del almuerzo, cena,
+  disco con <code>5ª COMIDA</code> y el vehículo (<code>BUS / MICRO / VAN</code>) al final.
+  Si la fuente no trae un dato (hora, lugar o vuelo), se usa
+  <b>el diccionario interno por atracción</b> y se marca <code>____H</code> / <code>____</code>
+  para completar a mano. El generador <b>no inventa</b> datos que la fuente no trae.
+</div>
+
+<h2>2. Estructura de carpetas</h2>
+<p>Todo el sistema vive en la carpeta <code>Marcaciones</code>, ordenado así:</p>
+<table>
+  <tr>
+    <th>Carpeta</th><th>Qué contiene</th><th>Mantenimiento</th>
+  </tr>
+  <tr>
+    <td><code>codigo/</code></td>
+    <td>Los 3 generadores + la interfaz (<code>*.py</code>)</td>
+    <td>No se toca a mano</td>
+  </tr>
+  <tr>
+    <td><code>plantillas/</code></td>
+    <td><code>cristour_template.xlsx</code> y <code>inka_template.xlsx</code> (formato base)</td>
+    <td>Son la base del formato; no mover</td>
+  </tr>
+  <tr>
+    <td><code>entradas/</code></td>
+    <td>Datos de entrada: Excel de colegios, Rooming y los <code>.docx</code> de operaciones</td>
+    <td>Aquí se colocan los Word nuevos y se actualiza el Excel si cambia</td>
+  </tr>
+  <tr>
+    <td><code>salidas/</code></td>
+    <td>Todas las planillas generadas (<code>SALIDA_*.xlsx</code>)</td>
+    <td>Aquí quedan los resultados</td>
+  </tr>
+  <tr>
+    <td><code>manual/</code></td>
+    <td>Este manual + imágenes</td>
+    <td>Solo lectura</td>
+  </tr>
+  <tr>
+    <td><code>Planillas_GUI.exe</code></td>
+    <td>Acceso directo a la ventana (raíz)</td>
+    <td>Doble clic para abrir</td>
+  </tr>
+</table>
+
+<h2>3. Resumen de la salida</h2>
+<h3>3.1 Receptivo y Word</h3>
+<p>Cada planilla generada contiene estas hojas (ejemplos del Receptivo):</p>
+<table>
+  <tr><th>Hoja</th><th>Contenido</th></tr>
+  <tr><td><b>PROGRAMACION ...</b></td><td>Mapa de días por grupo: IN, actividad, discos, OUT</td></tr>
+  <tr><td><b>-- Atracción --</b> (Barco, Beto Carrero, Teleférico...)</td><td>Listado por atracción: colegio, alumnos, adultos, guía, total, hotel</td></tr>
+  <tr><td><b>5 COMIDA</b></td><td>Eventos de quinta comida agrupados por fecha y boliche</td></tr>
+  <tr><td><b>COLEGIOS MAESTRO</b></td><td>Lista maestra de colegios</td></tr>
+</table>
+
+<h3>3.2 Operativo (Control Operativo)</h3>
+<p>
+  La salida <code>SALIDA_OPERATIVO_2026.xlsx</code> es idéntica al archivo de referencia
+  <i>inka grupo 1 e 2 Valores.xlsx</i> y contiene las hojas:
+</p>
+<table>
+  <tr><th>Hoja</th><th>Contenido</th></tr>
+  <tr><td><b>PROGRAMACION</b></td><td>Bloques por grupo + mapa de días (C..I), con la fecha real de cada día</td></tr>
+  <tr><td><b>CRISTO LUZ · UNIPRAIA · BETO CARRERO · PORTO BELO · ZACARIAS · BARCO PIRATA</b></td><td>Listado por atracción (Nº, GRUPO N, alumnos, adultos, total, guía, fecha, total+guía)</td></tr>
+  <tr><td><b>5 COMIDA</b></td><td>Eventos por fecha con servicio en blanco</td></tr>
+</table>
+<p>Mapeo del Itinerario Ideal (hoja Reservas) a las hojas:</p>
+<table>
+  <tr><th>En el itinerario</th><th>Hoja</th></tr>
+  <tr><td>Parque Unipraias</td><td>UNIPRAIA</td></tr>
+  <tr><td>Beto Carrero World</td><td>BETO CARRERO</td></tr>
+  <tr><td>Porto Belo</td><td>PORTO BELO</td></tr>
+  <tr><td>Campamento Americano</td><td>ZACARIAS</td></tr>
+  <tr><td>Cristo Luz / Cena Cristo Luz</td><td>CRISTO LUZ (día de IN)</td></tr>
+  <tr><td>Barco Pirata</td><td>BARCO PIRATA</td></tr>
+  <tr><td>Día Libre</td><td>Sin hoja (celda de día libre)</td></tr>
+</table>
+
+<h2>4. Cómo usarlo — con la ventana (recomendado)</h2>
+<p>Haga <b>doble clic</b> en el archivo <code>Planillas_GUI.exe</code>. Se abre la ventana
+"Sistema de Planillas - Camboriu 2026/2027".</p>
+<div class="paso"><div class="n">1</div><div class="t">
+  Elija el <b>Tipo de planilla</b> (Receptivo, Operativo o Word). Cada tipo carga
+  automáticamente su archivo de entrada, su plantilla y su salida. Use
+  <b>"Examinar..."</b> para cambiar cualquiera.
+</div></div>
+<div class="paso"><div class="n">2</div><div class="t">
+  Presione <b>"Generar planillas"</b>. Mientras genera, el estado dice "Generando...";
+  al terminar verá el resumen: grupos, eventos 5 COMIDA y atracciones.
+</div></div>
+<div class="paso"><div class="n">3</div><div class="t">
+  <b>Previsualice</b> cada hoja con el selector de arriba. La cuadrícula muestra hasta 500 filas.
+</div></div>
+<div class="paso"><div class="n">4</div><div class="t">
+  <b>Guarde</b> con "Guardar archivo salida" o "Guardar y abrir en Excel".
+  Si el archivo está abierto en Excel y no se puede sobrescribir, el programa le ofrece
+  guardar una copia.
+</div></div>
+
+<div class="aviso rojo">
+  <b>Tip:</b> "Generar planillas" prepara todo <b>en memoria</b>. Mientras no presione Guardar,
+  no se escribe nada en disco — fíjese bien en la vista previa primero.
+</div>
+
+<h2>5. Cómo usarlo — por línea de comandos</h2>
+<p>Abra una terminal (PowerShell o CMD) dentro de la carpeta <code>Marcaciones\codigo</code>
+y ejecute uno de estos comandos:</p>
+<pre>python generador_receptivo.py
+python generador_word.py
+python generador_operativo.py</pre>
+<p>Cada script usa sus archivos fijos (véase las tablas de arriba). Al terminar muestra un
+resumen y guarda el archivo de salida en <code>salidas/</code>.</p>
+
+<h3>Particularidades de cada tipo</h3>
+<ul>
+  <li><b>Word:</b> toma el primer <code>.docx</code> que encuentre en <code>entradas/</code>.
+      Por cada colegio nuevo, deje su <code>.docx</code> ahí y corra
+      <code>python generador_word.py</code>. Las horas y lugares salen del propio Word.</li>
+  <li><b>Receptivo:</b> lee <code>COLEGIOS CANTIDAD DE PASAJEROS, DISCOS, MARCACIONES (3).xlsx</code>
+      y aplica las cantidades reales del <code>Rooming 2026.xlsx</code>.</li>
+  <li><b>Operativo:</b> lee la <b>hoja Reservas</b> del "Control Operativo". El archivo debe
+      estar en <code>entradas/</code> (puede llamarse <code>Control Operativo.xlsx</code> o ser
+      cualquier <code>.xlsx</code> con una hoja <i>Reservas</i>; el programa lo detecta solo).
+      Toma como única fuente el <b>Itinerario Ideal</b> y las notas (hora de salida). Maneja
+      <b>1 o más grupos</b> y coloca cada día en la columna según su <b>fecha real</b>, aunque
+      los grupos entren en días distintos.</li>
+</ul>
+
+<h2>5b. Instalar en otra computadora</h2>
+<p>El sistema se puede bajar de git y usar en cualquier PC:</p>
+<ol>
+  <li>Descargar/clonar la carpeta <code>Marcaciones</code>.</li>
+  <li>Doble clic en <code>Planillas_GUI.exe</code>: es un ejecutable independiente,
+      <b>no necesita instalar nada</b>.</li>
+  <li>Colocar en <code>entradas/</code> los archivos de datos que correspondan (Excel de colegios,
+      Rooming, los <code>.docx</code> y el "Control Operativo").</li>
+</ol>
+<div class="aviso">
+  <b>Nota:</b> las salidas generadas (<code>salidas/</code>) no se suben a git; se crean al
+  ejecutar los generadores. Los datos de entrada sí se suben (si no querés compartir alguno,
+  agregalo al <code>.gitignore</code>). Para <em>desarrollar</em> (modificar el código) sí se
+  necesita Python + <code>pip install -r requirements.txt</code> y se puede ejecutar
+  <code>python gui_receptivo.py</code> desde <code>codigo/</code>.
+</div>
+
+<h2>6. Formato de la celda de un día</h2>
+<p>El programa arma las celdas con el <b>diccionario interno por atracción</b>:
+para Beto Carrero escribe <code>Salida p/Beto Carrero</code>, para el Teleférico
+<code>Salida p/Teleférico</code> + <code>Youhooo</code> + <code>Almuerzo Rest.</code>,
+para Cascata/Zacarías el almuerzo <em>en parque</em>, y así. Las horas salen de ese mismo
+diccionario (p. ej. Beto 09:00) o quedan <code>____H</code>. En el caso del INKA se respeta
+al pie de la letra el texto de las planillas modelo de INKA.</p>
+
+<div class="img-frame">
+  <img src="img/word.jpg" alt="Programación formato Word">
+  <small>Celda típica del <code>generador_word.py</code>: las horas y lugares son reales (vienen del .docx).</small>
+</div>
+<div class="img-frame">
+  <img src="img/receptivo.jpg" alt="Programación formato Receptivo">
+  <small>Salida del <code>generador_receptivo.py</code>: misma estructura; horas y sub-atracciones de su diccionario interno.</small>
+</div>
+<div class="img-frame">
+  <img src="img/inka.jpg" alt="Programación formato Operativo">
+  <small>Salida del <code>generador_operativo.py</code>: texto exacto de las planillas modelo de referencia.</small>
+</div>
+
+<h2>7. Preguntas frecuentes</h2>
+<p><b>¿De dónde salen las horas y los lugares en las celdas?</b><br>
+  El Word trae horas y restaurantes escritos en el documento. Los Excel internos no;
+  por eso usan el <b>diccionario interno por atracción</b>. Si la fuente y el diccionario
+  no tienen el dato, aparece <code>____H</code> / <code>____</code> para completar a mano.</p>
+<p><b>¿Por qué el OUT del Operativo sale <code>____</code>?</b><br>
+  Por decisión: el vuelo de regreso no se escribe solo; se completa a mano
+  (la referencia mostraba "SKY AIRLINES", el generador lo deja en blanco a propósito).</p>
+<p><b>¿Qué pasa si en el itinerario del Control Operativo hay una atracción que no reconoce?</b><br>
+  Esa celda de día queda en blanco y no crea hoja: el programa <b>no inventa</b> nombres ni datos.</p>
+<p><b>¿Puedo perder mi archivo de salida al regenerar?</b><br>
+  Sí, <code>generador_*.py</code> sobrescribe la salida. Guarde una copia si hizo ajustes a mano
+  (hay copias previas como <code>SALIDA_OPERATIVO_2026_previo_usuario.xlsx</code> en <code>salidas/</code>).</p>
+<p><b>¿Dónde está la ventana?</b><br>
+  Doble clic en <code>Planillas_GUI.exe</code>. Es un programa independiente: no requiere Python instalado.
+  (Si querés regenerarlo desde el código, se compila con
+  <code>python -m PyInstaller --onefile --windowed --icon icono.ico codigo/gui_receptivo.py</code>).</p>
+
+<footer>Sistema de Planillas - Camboriú 2026 &middot; Manual generado automáticamente</footer>
+</main>
+</body>
+</html>

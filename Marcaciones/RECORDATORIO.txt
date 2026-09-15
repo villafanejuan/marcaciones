@@ -1,0 +1,28 @@
+RECORDATORIO - QUE GENERADOR USAR SEGUN EL ESTILO
+===================================================
+
+ESTILO  ->  GENERADOR (tipo en la ventana => Planillas_GUI.exe)
+
+  PANAM            ->  Receptivo       (codigo/generador_receptivo.py)
+  INKA             ->  Operativo       (codigo/generador_operativo.py)
+  DOCUMENTO WORD   ->  Word            (codigo/generador_word.py)
+
+Los nombres "Receptivo" y "Operativo" son neutros (no llevan el nombre de la
+empresa), pero corresponden asi:
+
+  - "Receptivo"  = planillas estilo PANAM
+      Fuente de datos: Excel "COLEGIOS CANTIDAD DE PASAJEROS, DISCOS,
+      MARCACIONES (3).xlsx" en entradas/.
+      Salida: SALIDA_SISTEMA_RECEPTIVO.xlsx
+
+  - "Operativo"  = planillas estilo INKA
+      Fuente de datos: "Control Operativo" (hoja Reservas) en entradas/.
+      Salida: SALIDA_OPERATIVO_2026.xlsx
+
+  - "Word"  = planillas a partir del itinerario que viene en un .docx
+      Fuente de datos: archivo OPERACIONES ... .docx en entradas/.
+      Salida: SALIDA_WORD_OPERACIONES *.xlsx
+
+NOTA: la planilla generada (el contenido) SI conserva los nombres originales
+del estilo (ej. dentro de la planilla dice "PLANILLA DE COLEGIOS INKA" o
+"GRUPO N"); eso lo edito a mano despues si hace falta.
