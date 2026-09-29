@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Build de PyInstaller
+build/
+
+# Ejecutable generado (se sube a Releases, no a git)
+dist/
+
+# Datos del usuario y exportaciones
+exportaciones/
+*.log
+tmp_ejemplo/
+
+# Sistema
+Thumbs.db
+Desktop.ini
+.DS_Store
