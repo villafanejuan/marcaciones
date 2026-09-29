@@ -11,10 +11,15 @@ build/
 # Ejecutable generado (se sube a Releases, no a git)
 dist/
 
-# Datos del usuario y exportaciones
+# Datos del usuario: nunca van a git (contienen pasajeros y notas de grupo)
+entradas/
+salidas/
 exportaciones/
 *.log
 tmp_ejemplo/
+
+# Binarios compilados (van a Releases, no a git)
+*.exe
 
 # Sistema
 Thumbs.db

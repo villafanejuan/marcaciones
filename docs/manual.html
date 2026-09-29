@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Usuario — Distribuidor de Habitaciones para Grupos</title>
+<style>
+  :root {
+    --acento: #0ea5e9;
+    --acento-oscuro: #0284c7;
+    --texto: #1f2937;
+    --texto-suave: #6b7280;
+    --borde: #e5e7eb;
+    --fondo-suave: #f3f4f6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, Arial, sans-serif;
+    color: var(--texto);
+    margin: 0;
+    background: #f9fafb;
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #fff;
+    padding: 2.2rem 1.5rem 1.8rem;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 .3rem; font-size: 1.9rem; }
+  header p { margin: .2rem 0; color: #cbd5e1; font-size: 1.05rem; }
+  main { max-width: 980px; margin: 2rem auto; padding: 0 1.2rem 3rem; }
+  nav {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: .9rem 1.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  nav strong { display: block; margin-bottom: .4rem; color: var(--texto-suave); }
+  nav a { color: var(--acento-oscuro); text-decoration: none; margin-right: .9rem; }
+  nav a:hover { text-decoration: underline; }
+  section {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 1.5rem 1.6rem;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  h2 {
+    font-size: 1.4rem;
+    border-bottom: 2px solid var(--acento);
+    padding-bottom: .35rem;
+    margin-top: 0;
+  }
+  h3 { font-size: 1.1rem; margin-top: 1.4rem; color: #111827; }
+  img {
+    max-width: 100%;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    margin: .8rem 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  figcaption {
+    font-size: .92rem;
+    color: var(--texto-suave);
+    margin: -.2rem 0 1rem;
+  }
+  ul, ol { margin: .4rem 0 .8rem; padding-left: 1.3rem; }
+  li { margin: .3rem 0; }
+  code {
+    background: var(--fondo-suave);
+    border: 1px solid var(--borde);
+    border-radius: 4px;
+    padding: .1rem .35rem;
+    font-size: .92em;
+  }
+  .nota {
+    background: #eff6ff;
+    border-left: 4px solid var(--acento);
+    padding: .7rem .9rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: .95rem;
+  }
+  .tip {
+    background: #ecfdf5;
+    border-left: 4px solid #10b981;
+    padding: .7rem .9rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: .95rem;
+  }
+  .warn {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: .7rem .9rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: .95rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .8rem 0;
+    font-size: .95rem;
+  }
+  th, td { border: 1px solid var(--borde); padding: .45rem .6rem; text-align: left; }
+  th { background: var(--fondo-suave); }
+  footer {
+    text-align: center;
+    color: var(--texto-suave);
+    font-size: .88rem;
+    padding: 1.5rem;
+  }
+  .pasos { counter-reset: paso; }
+  .pasos li { counter-increment: paso; }
+  .pasos li::marker { font-weight: bold; color: var(--acento-oscuro); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Distribuidor de Habitaciones para Grupos</h1>
+  <p>Manual de usuario — asigne pasajeros a habitaciones de forma óptima y exporte a Excel</p>
+</header>
+
+<main>
+  <nav>
+    <strong>Contenido</strong>
+    <a href="#como-funciona">¿Cómo funciona?</a>
+    <a href="#inicio">Primeros pasos</a>
+    <a href="#hoteles">Hoteles</a>
+    <a href="#grupos">Grupos</a>
+    <a href="#habitaciones">Habitaciones</a>
+    <a href="#simular">Simular</a>
+    <a href="#confirmar">Confirmar grupos</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#cotizar">Rack / Cotizador</a>
+    <a href="#planificar">Planificador</a>
+    <a href="#exportar">Exportar a Excel</a>
+    <a href="#guardar">Guardar y reabrir</a>
+    <a href="#tips">Consejos</a>
+  </nav>
+
+  <section id="como-funciona">
+    <h2>¿Qué hace esta aplicación?</h2>
+    <p>
+      Recibís grupos (colegios, empresas, turismo estudiantil) que van a un hotel con una cierta
+      cantidad de <strong>apartamentos</strong> (habitaciones con 2, 3, 4… camas) o <strong>camas
+      sueltas</strong>. La app asigna cada pasajero a una cama respetando las reglas que definas:
+    </p>
+    <ul>
+      <li>Separar hombres y mujeres si lo pedís.</li>
+      <li>Que los menores vayan con un adulto responsable.</li>
+      <li>Que las familias puedan mezclarse entre sí.</li>
+      <li>Que las parejas compartan cama matrimonial.</li>
+      <li>Un cupo fijo de estudiantes por habitación (por ej. 2 o 4 por apartamento).</li>
+      <li>Guias/choferes en individual, si lo indicás.</li>
+      <li>Tope de plazas por habitación, disponibilidad por fechas y bloqueos.</li>
+    </ul>
+    <p>
+      El resultado se muestra en un <strong>mapa de habitaciones</strong> y una
+      <strong>matriz de consumo por noche</strong>, y se puede exportar a <strong>Excel</strong>
+      con un rooming profesional que incluye el <em>límite diario de personas</em> y alerta de
+      sobreventa.
+    </p>
+    <div class="nota">
+      <strong>Concepto clave:</strong> el motor busca la distribución que usa la MENOR cantidad de
+      habitaciones y la mejor ocupación posible. Una persona puede quedar "sin habitación" solo si
+      no hay capacidad suficiente.
+    </div>
+  </section>
+
+  <section id="inicio">
+    <h2>Primeros pasos</h2>
+    <p>Al abrir la aplicación verás una ventana con tres zonas:</p>
+    <ul>
+      <li><strong>Barra superior:</strong> hotel activo, selector de hoteles y rango de fechas de vista.</li>
+      <li><strong>Panel lateral:</strong> botones de acción (cargar demo, grupos, habitaciones, exportar…).</li>
+      <li><strong>Zona central:</strong> mapa del hotel, mapa de camas y matriz de consumo.</li>
+    </ul>
+    <figure>
+      <img src="imagenes/01_pantalla_principal.png" alt="Pantalla principal con la demo cargada">
+      <figcaption>Pantalla principal con la demo cargada: mapa de habitaciones a la izquierda, detalle del pax seleccionado a la derecha, consumo por noche abajo.</figcaption>
+    </figure>
+    <div class="tip">
+      <strong>La forma más rápida de probar:</strong> click en <strong>«🎬 Cargar demo completa»</strong>.
+      Se crea el hotel «Cabanas del Sol» con grupos de ejemplo (incluido uno sin fecha en cola de
+      espera); presioná <strong>«▶ SIMULAR DISTRIBUCIÓN»</strong> y mirá el resultado.
+    </div>
+  </section>
+
+  <section id="hoteles">
+    <h2>Hoteles (trabajar con varios)</h2>
+    <p>La app permite manejar <strong>varios hoteles</strong> a la vez, cada uno con sus propios
+    grupos y habitaciones:</p>
+    <ul>
+      <li>Hacé click en <strong>«＋ Hotel»</strong> en la barra superior para agregar un hotel.</li>
+      <li>Cambiá el nombre del hotel activo editando el campo de texto de la barra (Enter o clic afuera).</li>
+      <li>Usá el <strong>selector desplegable</strong> para cambiar de hotel; cada hotel recuerda sus grupos y resultados.</li>
+      <li>Con el botón <strong>«🗑»</strong> eliminás el hotel activo (con confirmación).</li>
+    </ul>
+    <div class="nota">
+      El <strong>espacio de trabajo se guarda solo</strong>: al cerrar la app y volver a abrirla,
+      se restauran el hotel activo, todos los grupos, el rango de fechas y los resultados.
+    </div>
+  </section>
+
+  <section id="grupos">
+    <h2>Grupos de pasajeros</h2>
+    <p>Un grupo es una entidad (colegio, empresa) con fechas de ingreso/egreso y una lista de
+    pasajeros. Los grupos aparecen como tarjetas en el panel lateral con su empresa y un sello de
+    estado (<strong>ESTIMADO</strong>, <strong>✔ CONFIRMADO</strong> o <strong>SIN FECHA</strong>).</p>
+    <ol class="pasos">
+      <li>Click en <strong>«👥 Nuevo grupo…»</strong>.</li>
+      <li>Completá el <strong>nombre</strong> y la <strong>empresa / escuela</strong> (ej: "Colegio Norte").</li>
+      <li>Indicá ingreso/egreso. <strong>Dejando ambas fechas vacías</strong> lo guardás como <strong>cola
+        de espera</strong> (sin fecha): no se distribuye hasta que definas fechas.</li>
+      <li>Elegí el <strong>modo del grupo</strong>:
+        <strong>GRUPAL</strong> (datos completos, reglas estrictas) o
+        <strong>INDIVIDUAL (provisional)</strong> (cantidades parciales; se marca «ESTIMADO» hasta que
+        confirmes el grupo).</li>
+      <li>Definí las <strong>reglas</strong> de distribución para ese grupo (separar sexos, niños con
+        adultos, guías en individual, cupo de estudiantes por hab., etc.).</li>
+      <li>Agregá pasajeros con «＋ Agregar», o usá <strong>«Agregar en lote»</strong> para crear
+        varios iguales (ej: 25 estudiantes mujeres).</li>
+      <li>Presioná <strong>«Guardar grupo»</strong>.</li>
+    </ol>
+    <figure>
+      <img src="imagenes/02_dialogo_nuevo_grupo.png" alt="Diálogo de nuevo grupo con pasajeros y reglas">
+      <figcaption>Diálogo «Nuevo grupo»: datos del grupo, reglas de distribución y lista de pasajeros editable.</figcaption>
+    </figure>
+
+    <h3>Modo de hospedaje (estudiantes o adultos)</h3>
+    <p>El <strong>modo de hospedaje</strong> se elige <strong>por grupo</strong>, así que en el mismo
+    hotel podés tener un grupo adulto de una empresa y varios grupos escolares al mismo tiempo.
+    Solo cambia la forma de repartir las habitaciones; el resto de las reglas sigue igual.</p>
+    <table>
+      <tr><th>Modo</th><th>Cuándo usarlo</th><th>Qué hace</th></tr>
+      <tr>
+        <td><strong>ADULTOS</strong> (receptivo)</td>
+        <td>Grupos de adultos, familias, parejas, empresas.</td>
+        <td>El reparto anterior: agrupa lo más parecido, prioriza parejas y familias, y
+        reparte libre entre todos los demás.</td>
+      </tr>
+      <tr>
+        <td><strong>ESTUDIANTIL</strong></td>
+        <td>Viajes de estudio, colegios, convenciones de alumnos.</td>
+        <td>Separa en dos: <strong>alumnos</strong> (que se mezclan entre sí) y
+        <strong>acompañantes</strong> (apoderados, choferes, guías, que <strong>nunca</strong> duermen
+        con un alumno). Cada bando se reparte aparte.</td>
+      </tr>
+    </table>
+    <p>Dentro del modo <strong>ESTUDIANTIL</strong> hay dos ajustes que afinan el reparto:</p>
+    <table>
+      <tr><th>Ajuste</th><th>Predeterminado</th><th>Qué hace</th></tr>
+      <tr>
+        <td><strong>Máx. de plazas por hab. de alumnos</strong></td>
+        <td><strong>4</strong></td>
+        <td>Aunque el hotel tenga habitaciones de 6, 8 o 10, los alumnos se ubican solo en las
+        que tengan hasta este número de plazas. Evita sextuples y octupletes. Si el hotel
+        <em>no</em> tiene ninguna habitación chica, se usa igual la más chica y aparece un aviso.</td>
+      </tr>
+      <tr>
+        <td><strong>Agrupar acompañantes por rol</strong></td>
+        <td>Activado</td>
+        <td>Con el botón apagado, todos los acompañantes del mismo sexo pueden ir juntos aunque
+        sean de roles distintos (por ejemplo, choferes y guías). Con el botón encendido,
+        cada rol se agrupa aparte: choferes con choferes, apoderadas con apoderadas.</td>
+      </tr>
+    </table>
+    <div class="tip">
+      <strong>Regla clave</strong>: los alumnos usan la regla de
+      <strong>«Cupo de estudiantes por hab.»</strong> que ya existía, y el
+      <strong>máximo de plazas</strong> es un techo extra. Se combinan: si ponés cupo 3 y máximo 4,
+      los alumnos nunca pasan de 3 por habitación aunque la habitación sea de 6.
+    </div>
+    <div class="tip">
+      Si elegís <strong>ESTUDIANTIL</strong> pero el grupo <strong>no tiene ningún alumno</strong>, el
+      sistema lo trata automáticamente como <strong>ADULTOS</strong> y no te tira error.
+    </div>
+    <p>En la pestaña de <strong>Reglas</strong> de cada grupo también siguen disponibles
+    <strong>«Necesita single»</strong> y <strong>«Guías/choferes en individual»</strong>. Si activás
+    esa última, cada chofer o guía duerme solo; si la dejás apagada, se agrupan entre sí por rol
+    (lo más común).</p>
+    <h3>Datos de cada pasajero</h3>
+    <table>
+      <tr><th>Campo</th><th>Qué significa</th></tr>
+      <tr><td>Nombre y apellido</td><td>Se muestra en el mapa y en los Excel.</td></tr>
+      <tr><td>Tipo</td><td>Estudiante, Adulto, Niño, Bebé, Guía/Chofer. Influye en las reglas.</td></tr>
+      <tr><td>Sexo</td><td>Usado al separar sexos en habitaciones compartidas.</td></tr>
+      <tr><td>Edad</td><td>Opcional; define si es menor (niño/adolescente).</td></tr>
+      <tr><td>Familia</td><td>Apellido de grupo; los de la misma familia pueden mezclarse si activás la regla.</td></tr>
+      <tr><td>Pareja de</td><td>Comparten cama matrimonial (hab. con 1 cama para 2).</td></tr>
+      <tr><td>Necesita single</td><td>Habitación individual obligatoria (típico de guías/choferes).</td></tr>
+    </table>
+    <div class="tip">
+      Con los botones <strong>«⚭ Vincular pareja»</strong> y <strong>«Single SÍ/NO»</strong>
+      del diálogo podés marcar a varios pasajeros a la vez.
+    </div>
+  </section>
+
+  <section id="habitaciones">
+    <h2>Habitaciones y camas</h2>
+    <p>Un hotel puede tener <strong>apartamentos</strong> (habitaciones con número, piso y
+    capacidad) y/o un <strong>inventario de camas sueltas</strong> (ej. un dormitorio común).</p>
+
+    <h3>Agregar apartamentos</h3>
+    <figure>
+      <img src="imagenes/03_dialogo_habitaciones.png" alt="Diálogo de agregar habitaciones">
+      <figcaption>Diálogo «Agregar habitaciones»: cantidad, capacidad y ventana de disponibilidad.</figcaption>
+    </figure>
+    <ol class="pasos">
+      <li>Click en <strong>«🛏 Agregar habitaciones…»</strong>.</li>
+      <li>Número inicial (vacío = numeración automática 101, 102…), cantidad y capacidad.</li>
+      <li>Opcional: una <strong>ventana de disponibilidad</strong> (por ej. reducidas del 5 al 8 de marzo).</li>
+      <li>Con el botón <strong>📌</strong> que aparece junto a cada habitación en el mapa se abre la
+        edición y los <strong>bloqueos</strong> por fechas (mantenimiento, reserva aparte…).</li>
+    </ol>
+
+    <h3>Cargar camas sueltas</h3>
+    <p>
+      Con <strong>«🛏 Cargar camas…»</strong> creás lotes de camas con nombre, cantidad y disponibilidad
+      por fechas. Cuando el hotel no tiene apartamentos (solo camas), la simulación usa el
+      <strong>modo solo camas</strong>.
+    </p>
+  </section>
+
+  <section id="simular">
+    <h2>Simular la distribución</h2>
+    <div class="nota">
+      Necesitás al menos un grupo y habitaciones/camas cargadas.
+    </div>
+    <ol class="pasos">
+      <li>En el panel lateral elegí la <strong>estrategia</strong> (normalmente <code>AUTO</code> es ideal).</li>
+      <li>Opcional: definí un <strong>máximo de plazas por habitación</strong> (tope).</li>
+      <li>Presioná <strong>«▶ SIMULAR DISTRIBUCIÓN»</strong>.</li>
+    </ol>
+    <p>El estado final aparece en la barra de estado: cuántos pasajeros alojados, cuántas
+    habitaciones usadas, personas sin habitación, etc.</p>
+    <div class="warn">
+      Si hay pasajeros <strong>sin habitación</strong> (no entra todo), la app lo indica y el Excel
+      los marca en la columna «Sin habitación». Revisá capacidad, fechas y bloqueos.
+    </div>
+  </section>
+
+  <section id="confirmar">
+    <h2>Confirmar grupos y modo de simulación</h2>
+    <p>Cuando trabajás con cuotas que llegan de a poco, conviene ir <strong>congelando</strong> lo que
+    ya está cerrado para que el motor no lo reacomode al sumar grupos nuevos.</p>
+    <ol class="pasos">
+      <li>Seleccioná un grupo en el panel lateral (tarjeta).</li>
+      <li>Presioná <strong>«✔ Confirmar grupo»</strong>: sus habitaciones quedan <strong>congeladas</strong>
+        en las próximas simulaciones y el grupo se marca <strong>✔ CONFIRMADO</strong>.</li>
+      <li>Con <strong>«↩ Quitar confirm.»</strong> volvés a dejar que se redistribuya libremente.
+        Los grupos <strong>SIN FECHA</strong> no se pueden confirmar hasta tener fechas.</li>
+    </ol>
+    <p>Debajo del botón de simular elegís el <strong>modo de simulación</strong>:</p>
+    <table>
+      <tr><th>Modo</th><th>Qué hace</th></tr>
+      <tr><td><code>CONSERVAR</code></td><td>Respeta los grupos confirmados (no los mueve) y
+        acomoda los nuevos/provisionales en lo que queda libre.</td></tr>
+      <tr><td><code>DESDE CERO</code></td><td>Reoptimiza todo de nuevo, ignorando confirmaciones
+        (útil para ver la distribución óptima global).</td></tr>
+    </table>
+    <div class="tip">
+      En el Excel, cada grupo confirmado aparece marcado <strong>· CONFIRMADO</strong> y cada
+      provisional <strong>· ESTIMADO</strong> en la hoja «Resumen por Grupo» del Rooming.
+    </div>
+  </section>
+
+  <section id="resultados">
+    <h2>Interpretar los resultados</h2>
+    <figure>
+      <img src="imagenes/01_pantalla_principal.png" alt="Resultado de la distribución">
+      <figcaption>Al simular, el mapa muestra cada habitación con sus ocupantes; la matriz de abajo suma el consumo noche por noche.</figcaption>
+    </figure>
+    <ul>
+      <li><strong>Mapa del hotel:</strong> cada habitación con sus camas y el nombre del pax asignado. Click en una habitación para ver el detalle y las fechas de cada ocupante.</li>
+      <li><strong>Mapa de camas:</strong> vista alternativa cuando se usan camas sueltas.</li>
+      <li><strong>Matriz de consumo:</strong> grupos en filas y fechas en columnas, con el total por noche, el <strong>pico</strong> y el <strong>tope</strong> de plazas.</li>
+      <li><strong>Rango de fechas de vista</strong> (barra superior): recortá la matriz a un período; se guarda con el espacio de trabajo.</li>
+    </ul>
+  </section>
+
+  <section id="cotizar">
+    <h2>Rack / Cotizador rápido</h2>
+    <figure>
+      <img src="imagenes/04_dialogo_rack.png" alt="Diálogo Rack / Cotizador">
+      <figcaption>Rack/Cotizador: estima cuántos apartamentos o pasajeros entran en un rango de fechas.</figcaption>
+    </figure>
+    <ol class="pasos">
+      <li>Indicá las fechas de ingreso/egreso y si te pasaron <strong>apartamentos</strong> o <strong>pasajeros</strong>.</li>
+      <li>Escribí la cantidad (ej: 20 apartamentos o 80 pasajeros).</li>
+      <li>Usá el <strong>multiplicador</strong> automático del hotel o uno manual (ej: 3.5 camas por apartamento).</li>
+      <li>«Calcular aproximación» te da el estimado.</li>
+      <li>«📌 Marcar cotización en ambos mapas» dibuja encima del mapa la zona que necesitarías.</li>
+    </ol>
+  </section>
+
+  <section id="planificar">
+    <h2>Planificador / Estimador</h2>
+    <figure>
+      <img src="imagenes/05_dialogo_planificador.png" alt="Diálogo Planificador">
+      <figcaption>Planificador: dado un total de pasajeros, sugiere capacidad y cantidad de habitaciones por grupo.</figcaption>
+    </figure>
+    <ol class="pasos">
+      <li>Completá nombre y total de pasajeros del grupo futuro.</li>
+      <li>Si sabés composición (estudiantes, adultos, etc.), completá la tabla.</li>
+      <li>Indicá la capacidad máxima deseada por habitación.</li>
+      <li>Presioná <strong>«Estimar»</strong> para ver cuántas habitaciones de cada capacidad necesitás.</li>
+      <li>Podés <strong>aplicar la sugerencia</strong>: crea el grupo y hasta agrega las habitaciones al hotel.</li>
+    </ol>
+  </section>
+
+  <section id="exportar">
+    <h2>Exportar a Excel</h2>
+    <p>Hay dos exportaciones principales en el panel lateral:</p>
+
+    <h3>📤 Exportar Excel…</h3>
+    <p>Guarda un archivo con las hojas <strong>Mapa del hotel</strong>, <strong>Resumen</strong> y
+    <strong>Pasajeros</strong> (una fila por pasajero con su habitación y fechas). Tiene firma:
+    <code>*.xlsx</code> o dos CSV (<code>*.csv</code>).</p>
+
+    <h3>📋 Exportar Rooming…</h3>
+    <p>Genera <strong>un Excel por cada hotel</strong> con grupos cargados en la carpeta que elijas
+    (por defecto <code>exportaciones\</code>, junto a la app). Cada archivo contiene:</p>
+    <ul>
+      <li><strong>Resumen por Grupo</strong>: una fila por grupo, con estado, fechas, total, sin habitación y conteos al estilo "File".</li>
+      <li><strong>Detalle por Categoría</strong>: pasajeros desglosados por categoría (Estudiantes H/M, Adultos H/M, Niños, Guías) y tipo de habitación.</li>
+      <li><strong>Cambios</strong>: movimientos respecto a la última exportación.</li>
+      <li><strong>Límites por noche</strong>: por cada fecha, el límite de personas (y de apartamentos), lo ocupado y lo <strong>disponible</strong>.</li>
+    </ul>
+    <figure>
+      <img src="imagenes/06_excel_rooming.png" alt="Hoja Límites por noche del Excel Rooming">
+      <figcaption>Hoja «Límites por noche» del Rooming (archivo Excel real): límite vs. ocupado por cada noche; cuando el disponible da negativo se resalta en rojo (sobreventa).</figcaption>
+    </figure>
+    <figure>
+      <img src="imagenes/07_excel_resumen.png" alt="Hoja Resumen por Grupo del Excel Rooming">
+      <figcaption>Hoja «Resumen por Grupo» del Rooming (archivo Excel real): una fila por grupo con sus conteos, tal como se ve al abrir el archivo.</figcaption>
+    </figure>
+    <div class="warn">
+      <strong>Ojo con la sobreventa:</strong> si el disponible de una noche es negativo, la celda se
+      pinta de <strong>rojo</strong> y se agrega una fila «⚠ SOBREVENTA». Esto pasa cuando el hotel
+      no alcanza a cubrir todas las noches pedidas (capacidad o fechas).
+    </div>
+    <div class="tip">
+      Como hay <strong>un archivo por hotel</strong>, podés comparar fácilmente el límite diario de
+      cada uno y saber si te pasaste.
+    </div>
+  </section>
+
+  <section id="guardar">
+    <h2>Guardar y reabrir tu trabajo</h2>
+    <ul>
+      <li><strong>💾 Guardar JSON…</strong> y <strong>📂 Abrir JSON…</strong>: guardan/abren todos
+        los hoteles y grupos en un archivo <code>.json</code> para compartir o respaldar.</li>
+      <li><strong>Auto-guardado:</strong> la app guarda su espacio de trabajo
+        (<code>exportaciones\espacio_trabajo.json</code>) automáticamente al hacer cambios, y lo
+        restaura al abrir: hoteles, grupos, hotel activo y rango de fechas de vista.</li>
+    </ul>
+    <div class="nota">
+      Al usar el ejecutable, los archivos se guardan <strong>junto al .exe</strong>. Al usar el
+      código fuente, en la carpeta del proyecto.
+    </div>
+  </section>
+
+  <section id="tips">
+    <h2>Consejos y trucos</h2>
+    <ul>
+      <li>Probá la <strong>demo completa</strong> antes de cargar datos reales: muestra todo en 5 segundos.</li>
+      <li>Si un grupo no entra, revisá primero <strong>fechas</strong>, luego <strong>bloqueos</strong> y
+        después <strong>capacidad</strong>. La app siempre muestra cuántos quedaron afuera.</li>
+      <li>Usá el <strong>tope de plazas</strong> para no meter de más en apartamentos grandes.</li>
+      <li>En estrategia <code>EXACTA</code> el resultado es óptimo pero tarda más con muchos pasajeros.</li>
+      <li>La matriz te muestra el <strong>pico de consumo</strong>: es tu número clave para saber si un
+        hotel te sirve para una fecha específica.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  Distribuidor de Habitaciones para Grupos — Manual de usuario
+</footer>
+
+</body>
+</html>

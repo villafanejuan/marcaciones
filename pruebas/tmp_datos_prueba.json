@@ -1,0 +1,150 @@
+{
+  "version": 2,
+  "hoteles": [
+    {
+      "nombre": "Hotel Prueba",
+      "habitaciones": [
+        {
+          "numero": "100",
+          "capacidad": 2,
+          "piso": "",
+          "disponible_desde": null,
+          "disponible_hasta": null,
+          "bloqueos": []
+        },
+        {
+          "numero": "101",
+          "capacidad": 3,
+          "piso": "",
+          "disponible_desde": null,
+          "disponible_hasta": null,
+          "bloqueos": []
+        }
+      ],
+      "lotes_camas": [],
+      "provisional": null,
+      "grupos": [
+        {
+          "nombre": "Con fechas",
+          "fecha_ingreso": "2026-06-02",
+          "fecha_egreso": "2026-06-05",
+          "config": {
+            "separar_sexos": false,
+            "ninos_con_adulto_obligatorio": true,
+            "guias_choferes_single": false,
+            "estudiantes_por_habitacion": null,
+            "estudiantes_estricto": false,
+            "max_ninos_por_habitacion": null,
+            "familias_exentas_sexo": true,
+            "bebes_no_cuentan_cupo": false,
+            "modo_hospedaje": "ESTUDIANTIL",
+            "max_plazas_estudiantes": 4,
+            "adultos_por_rol": true
+          },
+          "pax": [
+            {
+              "nombre": "A1",
+              "tipo": "ADULTO",
+              "sexo": "X",
+              "edad": null,
+              "pareja_de": null,
+              "familia": null,
+              "requiere_single": false,
+              "notas": ""
+            },
+            {
+              "nombre": "A2",
+              "tipo": "ADULTO",
+              "sexo": "X",
+              "edad": null,
+              "pareja_de": null,
+              "familia": null,
+              "requiere_single": false,
+              "notas": ""
+            }
+          ],
+          "empresa": "Empresa Alfa",
+          "provisional": true,
+          "confirmado": false
+        },
+        {
+          "nombre": "Sin fecha",
+          "fecha_ingreso": null,
+          "fecha_egreso": null,
+          "config": {
+            "separar_sexos": false,
+            "ninos_con_adulto_obligatorio": true,
+            "guias_choferes_single": false,
+            "estudiantes_por_habitacion": null,
+            "estudiantes_estricto": false,
+            "max_ninos_por_habitacion": null,
+            "familias_exentas_sexo": true,
+            "bebes_no_cuentan_cupo": false,
+            "modo_hospedaje": "ESTUDIANTIL",
+            "max_plazas_estudiantes": 4,
+            "adultos_por_rol": true
+          },
+          "pax": [
+            {
+              "nombre": "B1",
+              "tipo": "ADULTO",
+              "sexo": "X",
+              "edad": null,
+              "pareja_de": null,
+              "familia": null,
+              "requiere_single": false,
+              "notas": ""
+            }
+          ],
+          "empresa": "Empresa Beta",
+          "provisional": true,
+          "confirmado": false
+        },
+        {
+          "nombre": "Confirmado",
+          "fecha_ingreso": "2026-06-02",
+          "fecha_egreso": "2026-06-05",
+          "config": {
+            "separar_sexos": false,
+            "ninos_con_adulto_obligatorio": true,
+            "guias_choferes_single": false,
+            "estudiantes_por_habitacion": null,
+            "estudiantes_estricto": false,
+            "max_ninos_por_habitacion": null,
+            "familias_exentas_sexo": true,
+            "bebes_no_cuentan_cupo": false,
+            "modo_hospedaje": "ESTUDIANTIL",
+            "max_plazas_estudiantes": 4,
+            "adultos_por_rol": true
+          },
+          "pax": [
+            {
+              "nombre": "C1",
+              "tipo": "ADULTO",
+              "sexo": "X",
+              "edad": null,
+              "pareja_de": null,
+              "familia": null,
+              "requiere_single": false,
+              "notas": ""
+            },
+            {
+              "nombre": "C2",
+              "tipo": "ADULTO",
+              "sexo": "X",
+              "edad": null,
+              "pareja_de": null,
+              "familia": null,
+              "requiere_single": false,
+              "notas": ""
+            }
+          ],
+          "empresa": "",
+          "provisional": false,
+          "confirmado": true
+        }
+      ]
+    }
+  ],
+  "estado": {}
+}
