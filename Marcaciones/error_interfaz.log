@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\tbeve\OneDrive\Área de Trabalho\experimento\distribuidor_hotel\interfaz.py", line 3713, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\tbeve\OneDrive\Área de Trabalho\experimento\distribuidor_hotel\interfaz.py", line 3705, in main
+    return ejecutar_selftest()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tbeve\OneDrive\Área de Trabalho\experimento\distribuidor_hotel\interfaz.py", line 3652, in ejecutar_selftest
+    assert len(app.hotel.habitaciones) == 8 and app.hotel.habitaciones[0].capacidad == 4
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
