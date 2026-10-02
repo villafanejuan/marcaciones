@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Planillas_GUI.exe SÍ se versiona por decisión explícita del usuario.
+# Si preferís no subirlo (17 MB), descomentá la línea de abajo.
+# *.exe
+
+# Datos operativos (entradas/ y salidas/) SÍ se versionan por decisión
+# explícita del usuario. Si preferís no subirlos, descomentá:
+# salidas/
+# entradas/
